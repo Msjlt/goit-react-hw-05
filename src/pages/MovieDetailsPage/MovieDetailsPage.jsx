@@ -1,12 +1,20 @@
-import { useEffect, useState } from "react";
-import { useParams, Link, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import {
+  useParams,
+  Link,
+  Outlet,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import axios from "axios";
 import css from "./MovieDetailsPage.module.css";
+
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
+  const prevLocationState = useRef(location.state);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -35,7 +43,11 @@ export default function MovieDetailsPage() {
   if (!movie) return <div>Loading...</div>;
 
   const goBack = () => {
-    navigate(-1);
+    if (prevLocationState.current) {
+      navigate(-1, { state: prevLocationState.current });
+    } else {
+      navigate(-1);
+    }
   };
 
   return (

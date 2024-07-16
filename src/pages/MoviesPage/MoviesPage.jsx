@@ -42,7 +42,6 @@ export default function MoviesPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSearchParams({ query: query });
-    searchMovies(query);
   };
 
   return (
